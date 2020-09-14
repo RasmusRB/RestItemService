@@ -9,7 +9,7 @@ using ModelLib.Model;
 
 namespace RestItemService.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/localItems")]
     [ApiController]
     public class ItemsController : ControllerBase
     {
@@ -30,9 +30,36 @@ namespace RestItemService.Controllers
 
         // GET api/<ItemsController>/5
         [HttpGet("{id}")]
-        public Item Get(int id)
+        [ProducesResponseType(statusCode:200)]
+        [ProducesResponseType(statusCode:404)]
+        public IActionResult Get(int id)
         {
-            return _items.Find(i => i.Id == id);
+            if (_items.Exists(i => i.Id == id))
+            {
+                return Ok(_items.Find(i => i.Id == id));
+            }
+
+            return NotFound($"Item med id: {id} findes ikke.");
+        }
+
+        [HttpGet]
+        [Route("Search")]
+        [ProducesResponseType(statusCode: 200)]
+        [ProducesResponseType(statusCode: 404)]
+        public IEnumerable<Item> GetWithFilter([FromQuery] FilterItem filter)
+        {
+
+            return ;
+        }
+
+        // GET api/<ItemsController>
+        [HttpGet]
+        [Route("Name/{substring}")]
+        public IEnumerable<Item> GetFromSubstring(String substring)
+        {
+            List<Item> items;
+            items = _items.FindAll(i => i.Name.Contains(substring));
+            return items;
         }
 
         // POST api/<ItemsController>
@@ -43,25 +70,27 @@ namespace RestItemService.Controllers
         }
 
         // PUT api/<ItemsController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] Item value)
-        {
-            Item item = Get(id);
-            if (item != null)
-            {
-                item.Id = value.Id;
-                item.Name = value.Name;
-                item.Quality = value.Quality;
-                item.Quantity = value.Quantity;
-            }
-        }
+        //[HttpPut]
+        //[Route("{id}")]
+        //public void Put(int id, [FromBody] Item value)
+        //{
+        //    Item item = Get(id);
+        //    if (item != null)
+        //    {
+        //        item.Id = value.Id;
+        //        item.Name = value.Name;
+        //        item.Quality = value.Quality;
+        //        item.Quantity = value.Quantity;
+        //    }
+        //}
 
-        // DELETE api/<ItemsController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-            Item item = Get(id);
-            _items.Remove(item);
-        }
+        //// DELETE api/<ItemsController>/5
+        //[HttpDelete]
+        //[Route("{id}")]
+        //public void Delete(int id)
+        //{
+        //    Item item = Get(id);
+        //    _items.Remove(item);
+        //}
     }
 }
