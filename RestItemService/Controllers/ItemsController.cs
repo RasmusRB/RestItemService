@@ -48,8 +48,17 @@ namespace RestItemService.Controllers
         [ProducesResponseType(statusCode: 404)]
         public IEnumerable<Item> GetWithFilter([FromQuery] FilterItem filter)
         {
+            List < Item > tmpList = null;
+            if (filter.HighQuantity != null)
+            {
+                tmpList = _items.FindAll(f => f.Name.Contains(filter.HighQuantity));
+            }
+            else
+            {
+                tmpList = _items;
+            }
 
-            return ;
+            return tmpList;
         }
 
         // GET api/<ItemsController>

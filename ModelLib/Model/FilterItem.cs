@@ -6,27 +6,27 @@ namespace ModelLib.Model
 {
     public class FilterItem
     {
-        private double _lowQuantity;
-        private double _highQuantity;
+        private string _lowQuantity;
+        private string _highQuantity;
 
         public FilterItem()
         {
 
         }
 
-        public FilterItem(double lowQuantity, double highQuantity)
+        public FilterItem(string lowQuantity, string highQuantity)
         {
             _lowQuantity = lowQuantity;
             _highQuantity = highQuantity;
         }
 
-        public double LowQuantity
+        public string LowQuantity
         {
             get => _lowQuantity;
             set => _lowQuantity = value;
         }
 
-        public double HighQuantity
+        public string HighQuantity
         {
             get => _highQuantity;
             set => _highQuantity = value;
