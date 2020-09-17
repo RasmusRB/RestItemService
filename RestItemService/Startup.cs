@@ -26,6 +26,10 @@ namespace RestItemService
         {
             services.AddControllers();
             services.AddCors();
+            //services.AddCors(options =>
+            //{
+            //    options.AddPolicy("AllowAnyOrigin", builder => builder.AllowAnyOrigin());
+            //});
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -48,8 +52,12 @@ namespace RestItemService
                 options =>
                 {
                     // allow everything from everywhere
-                    options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+                    // options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+
+                    // allow only GET/PUT
+                    options.WithMethods("GET", "PUT");
                 });
+            // app.UseCors("AllowAnyOrigin");
         }
     }
 }
