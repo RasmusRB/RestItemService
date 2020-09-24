@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 
 namespace RestItemService
 {
@@ -26,6 +27,10 @@ namespace RestItemService
         {
             services.AddControllers();
             services.AddCors();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo{Title = "Items API", Version = "v1.0"});
+            });
             //services.AddCors(options =>
             //{
             //    options.AddPolicy("AllowAnyOrigin", builder => builder.AllowAnyOrigin());
@@ -39,6 +44,12 @@ namespace RestItemService
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Items API v1.0");
+            });
 
             app.UseRouting();
 
