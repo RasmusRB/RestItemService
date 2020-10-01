@@ -21,6 +21,10 @@ namespace RestItemService.Controllers
             new Item(4, "Soda", "Poor", 6.5)
         };
 
+        /// <summary>
+        /// Get's all items
+        /// </summary>
+        /// <returns></returns>
         // GET: api/<ItemsController>
         [HttpGet]
         public IEnumerable<Item> Get()
@@ -28,6 +32,11 @@ namespace RestItemService.Controllers
             return _items;
         }
 
+        /// <summary>
+        /// Get's item by ID + status codes
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         // GET api/<ItemsController>/5
         [HttpGet("{id}")]
         [ProducesResponseType(statusCode:200)]
@@ -42,6 +51,11 @@ namespace RestItemService.Controllers
             return NotFound($"Item med id: {id} findes ikke.");
         }
 
+        /// <summary>
+        /// Get filter item + status codes
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <returns></returns>
         [HttpGet]
         [Route("Search")]
         [ProducesResponseType(statusCode: 200)]
@@ -61,6 +75,11 @@ namespace RestItemService.Controllers
             return tmpList;
         }
 
+        /// <summary>
+        /// Get item through substring
+        /// </summary>
+        /// <param name="substring"></param>
+        /// <returns></returns>
         // GET api/<ItemsController>
         [HttpGet]
         [Route("Name/{substring}")]
@@ -71,11 +90,22 @@ namespace RestItemService.Controllers
             return items;
         }
 
+        /// <summary>
+        /// Post method
+        /// </summary>
+        /// <param name="value"></param>
         // POST api/<ItemsController>
         [HttpPost]
-        public void Post([FromBody] Item value)
+        [ProducesResponseType(statusCode:200)]
+        [ProducesResponseType(statusCode:404)]
+        public IActionResult Post([FromBody] Item value)
         {
-            _items.Add(value);
+            if (_items == null)
+            {
+                Ok(_items.Add(value));
+            }
+
+            return;
         }
 
         // PUT api/<ItemsController>/5

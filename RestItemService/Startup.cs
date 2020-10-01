@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
@@ -10,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Swashbuckle.Swagger;
 
 namespace RestItemService
 {
@@ -27,9 +30,34 @@ namespace RestItemService
         {
             services.AddControllers();
             services.AddCors();
+
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo{Title = "Items API", Version = "v1.0"});
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "Items API",
+                    Version = "v1.0",
+                    Description = "Example of OpenAPI for api/localItems",
+                    TermsOfService = null,
+
+                    //Contact = new Contact()
+                    //{
+                    //    name = "{your-name}",
+                    //    email = "{your-email}",
+                    //    url = "{your-url}"
+                    //},
+
+                    //License = new License()
+                    //{
+                    //    Name = "No licence required",
+                    //    Url = String.Empty
+
+                    //}
+                });
+            
+                //var xmlFile = "{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                //var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                //c.IncludeXmlComments(xmlPath);
             });
             //services.AddCors(options =>
             //{
@@ -49,6 +77,7 @@ namespace RestItemService
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Items API v1.0");
+                c.RoutePrefix = "api/help";
             });
 
             app.UseRouting();
