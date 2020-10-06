@@ -1,0 +1,7 @@
+﻿CREATE TABLE [dbo].[Item]
+(
+	[Id] INT NOT NULL PRIMARY KEY,
+	[Name] NVARCHAR(35) NOT NULL,
+	[Quality] NVARCHAR(35) NOT NULL,
+	[Quantity] FLOAT NOT NULL
+)
